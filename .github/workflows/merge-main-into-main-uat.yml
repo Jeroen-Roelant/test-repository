@@ -33,7 +33,7 @@ jobs:
 
       # Step 4: Merge main into main-uat
       - name: Merge main into main-uat
-        run: git merge main --no-ff --commit -m "Automatic merge branch 'main' into 'main-uat'"
+        run: git merge main --commit -m "Automatic merge branch 'main' into 'main-uat'"
 
       # Step 5: Push changes
       - name: Push changes
