@@ -1,0 +1,42 @@
+name: Merge main into main-uat
+
+# When this action will be executed
+on:
+  # Trigger when push to main branch
+  push:
+    branches:
+      - main
+
+  # Allow mannual trigger
+  workflow_dispatch:
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout main branch
+        uses: actions/checkout@v2
+        with:
+          ref: main
+
+      # Step 2: Configure git
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # Step 3: Checkout main-uat branch
+      - name: Checkout main-uat branch
+        run: git checkout main-uat
+
+      # Step 4: Merge main into main-uat
+      - name: Merge main into main-uat
+        run: git merge main --no-ff --commit -m "Automatic merge branch 'main' into 'main-uat'"
+
+      # Step 5: Push changes
+      - name: Push changes
+        run: git push origin main-uat
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
